@@ -22,11 +22,12 @@ public class Food {
 	 * 
 	 * @param name the name of the food
 	 * @param type the type off the food
+	 * @param quantity the number of the amount of food 
 	 */
-	public Food(String name, String type) {
+	public Food(String name, String type, int quantity) {
 		this.name = name;
 		this.type = type;
-		this.quantity = 0;
+		this.quantity = quantity;
 	}
 
 	/**

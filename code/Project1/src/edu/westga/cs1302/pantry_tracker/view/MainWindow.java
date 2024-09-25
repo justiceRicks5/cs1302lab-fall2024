@@ -58,12 +58,12 @@ public class MainWindow {
 
 			String name = this.foodName.getText();
 			String type = this.typeOfFood.getValue();
-
+			int quantity = Integer.parseInt(this.quantity.getText());
 			if (name == null || name.trim().isEmpty() || type == null) {
 				throw new IllegalArgumentException("Please enter both a food name and select a type.");
 			}
 
-			Food newFood = new Food(name, type);
+			Food newFood = new Food(name, type, quantity);
 			this.selectFood.getItems().add(newFood);
 
 			this.foodName.clear();
@@ -98,14 +98,26 @@ public class MainWindow {
 
 	@FXML
 	void setSelectedFoodQuantity() {
-	    Food selectedFood = this.selectFood.getSelectionModel().getSelectedItem();
-	    if (selectedFood != null) {
-	        selectedFood.setQuantity(5);  // Hardcoded value for testing
-	        System.out.println("Quantity set to 5");
-	        this.selectFood.refresh();
-	    } else {
-	        this.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a food item to set the quantity.");
-	    }
+		Food selectedFood = this.selectFood.getSelectionModel().getSelectedItem();
+		if (selectedFood != null) {
+			try {
+				System.out.println("TextField input: " + this.quantity.getText());
+
+				int newQuantity = Integer.parseInt(this.quantity.getText());
+				System.out.println("Setting quantity to: " + newQuantity);
+
+				selectedFood.setQuantity(newQuantity);
+				System.out.println("Updated food: " + selectedFood);
+
+				this.selectFood.refresh();
+
+				this.selectFood.getItems().set(this.selectFood.getSelectionModel().getSelectedIndex(), selectedFood);
+			} catch (NumberFormatException error) {
+				this.showAlert(Alert.AlertType.ERROR, "Invalid Input", "Please enter a valid number for the quantity.");
+			}
+		} else {
+			this.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a food item to set the quantity.");
+		}
 	}
 
 	private void showAlert(AlertType alertType, String title, String message) {

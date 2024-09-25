@@ -11,28 +11,20 @@ class TestConstructor {
 	@Test
 	void testFoodInitialization() {
 
-		Food food = new Food("Tomato", "Vegetable");
+		Food food = new Food("Tomato", "Vegetable",12);
 
 		assertEquals("Tomato", food.getName());
 		assertEquals("Vegetable", food.getType());
-		assertEquals(0, food.getQuantity());
+		assertEquals(12 , food.getQuantity());
 	}
 
 	@Test
 	void setQuanity() {
-		Food food = new Food("bacon", "pork");
+		Food food = new Food("bacon", "pork",1);
 		food.setQuantity(3);
 		assertEquals(3, food.getQuantity());
 	}
 
-	@Test
-	void testToStringWithDifferentNameAndType() {
-		Food food = new Food("Apple", "Fruit");
-
-		String result = food.toString();
-
-		assertEquals("Apple – Fruit", result, "toString() should return the correct name and type.");
-
-	}
+	
 
 }

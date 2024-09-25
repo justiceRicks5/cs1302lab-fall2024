@@ -11,7 +11,7 @@ class testDecrement {
 	@Test
 	void testDecrementquantitys() {
 
-		Food food = new Food("Tomato", "Vegetable");
+		Food food = new Food("Tomato", "Vegetable",0);
 		food.incrementQuantity();
 
 		food.decrementQuantity();
@@ -23,7 +23,7 @@ class testDecrement {
 	@Test
 	public void testDecrementQuantityMultipleTimes() {
 
-		Food food = new Food("Apple", "Fruit");
+		Food food = new Food("Apple", "Fruit", 0);
 		food.incrementQuantity();
 		food.incrementQuantity();
 
@@ -36,7 +36,7 @@ class testDecrement {
 	@Test
 	public void testDecrementQuantityDoesNotGoBelowZero() {
 
-		Food food = new Food("Bread", "Grain");
+		Food food = new Food("Bread", "Grain",0);
 
 		food.decrementQuantity();
 
@@ -46,7 +46,7 @@ class testDecrement {
 	@Test
 	public void testDecrementFromCustomValue() {
 
-		Food food = new Food("Milk", "Dairy");
+		Food food = new Food("Milk", "Dairy",0);
 		food.incrementQuantity();
 		food.incrementQuantity();
 		food.incrementQuantity();

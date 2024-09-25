@@ -11,7 +11,7 @@ class testIncrementQuantitys {
 	@Test
 	public void testIncrementQuantityOnce() {
 
-		Food food = new Food("Tomato", "Vegetable");
+		Food food = new Food("Tomato", "Vegetable",0);
 
 		food.incrementQuantity();
 
@@ -21,7 +21,7 @@ class testIncrementQuantitys {
 	@Test
 	public void testIncrementQuantityMultipleTimes() {
 
-		Food food = new Food("Apple", "Fruit");
+		Food food = new Food("Apple", "Fruit",0);
 
 		food.incrementQuantity();
 		food.incrementQuantity();
@@ -33,7 +33,7 @@ class testIncrementQuantitys {
 	@Test
 	public void testIncrementQuantityOnCustomStartingValue() {
 
-		Food food = new Food("Bread", "Grain");
+		Food food = new Food("Bread", "Grain",0);
 		food.incrementQuantity();
 
 		food.incrementQuantity();
