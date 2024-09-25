@@ -1,12 +1,12 @@
-package edu.westga.cs1302.testpantrytracker;
+package edu.westga.cs1302.pantry_tracker.test.model.food;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import edu.westga.cs1302.pantry_tracker.Food;
+import edu.westga.cs1302.pantry_tracker.model.Food;
 
-class TestAddFood {
+class TestConstructor {
 
 	@Test
 	void testFoodInitialization() {

@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane minHeight="442.0" minWidth="600.0" prefHeight="442.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.westga.cs1302.javafx_sample.view.MainWindow">
+<AnchorPane minHeight="442.0" minWidth="600.0" prefHeight="442.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.westga.cs1302.pantry_tracker.view.MainWindow">
    <children>
       <Label layoutX="96.0" layoutY="48.0" prefHeight="17.0" prefWidth="120.0" text="Name For New Food" textAlignment="CENTER" wrapText="true" />
       <TextField fx:id="foodName" layoutX="81.0" layoutY="87.0" promptText="enter name" />

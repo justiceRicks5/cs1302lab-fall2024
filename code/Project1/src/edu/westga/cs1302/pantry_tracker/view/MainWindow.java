@@ -1,6 +1,6 @@
-package edu.westga.cs1302.javafx_sample.view;
+package edu.westga.cs1302.pantry_tracker.view;
 
-import edu.westga.cs1302.pantry_tracker.Food;
+import edu.westga.cs1302.pantry_tracker.model.Food;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;

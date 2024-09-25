@@ -1,4 +1,4 @@
-package edu.westga.cs1302.javafx_sample;
+package edu.westga.cs1302.pantry_tracker;
 
 import java.io.IOException;
 

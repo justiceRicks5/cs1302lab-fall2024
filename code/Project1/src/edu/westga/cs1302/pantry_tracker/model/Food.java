@@ -1,4 +1,4 @@
-package edu.westga.cs1302.pantry_tracker;
+package edu.westga.cs1302.pantry_tracker.model;
 
 /**
  * a class that adds food new food items to the pantry
