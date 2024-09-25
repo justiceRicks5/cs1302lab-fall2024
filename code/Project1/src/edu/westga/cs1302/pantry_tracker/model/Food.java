@@ -62,7 +62,7 @@ public class Food {
 	 * @param quantity the quantity inputed
 	 */
 	public void setQuantity(int quantity) {
-		this.quantity = Math.max(quantity, 0);
+		 this.quantity = quantity;
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class Food {
 	 */
 	@Override
 	public String toString() {
-		return this.name + " – " + this.type;
+		return this.name + " – " + this.type + " – Quantity: " + this.quantity;
 	}
 
 }

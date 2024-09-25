@@ -45,6 +45,7 @@ public class MainWindow {
 				: "fx:id=\"selectFood\" was not injected: check your FXML file 'MainWindow.fxml'.";
 		assert this.typeOfFood != null
 				: "fx:id=\"typeOfFood\" was not injected: check your FXML file 'MainWindow.fxml'.";
+		assert this.quantity != null : "fx:id=\"quantity\" was not injected: check your FXML file 'MainWindow.fxml'.";
 
 		this.typeOfFood.setItems(
 				FXCollections.observableArrayList("Vegetable", "Meat", "Bread", "Fruit", "Dessert", "Ingredient"));
@@ -71,6 +72,40 @@ public class MainWindow {
 
 			this.showAlert(AlertType.ERROR, "Error", error.getMessage());
 		}
+	}
+
+	@FXML
+	void incrementSelectedFoodQuantity() {
+		Food selectedFood = this.selectFood.getSelectionModel().getSelectedItem();
+		if (selectedFood != null) {
+			selectedFood.incrementQuantity();
+			this.selectFood.refresh();
+		} else {
+			this.showAlert(AlertType.WARNING, "No Selection", "Please select a food item to increment.");
+		}
+	}
+
+	@FXML
+	void decrementSelectedFoodQuantity() {
+		Food selectedFood = this.selectFood.getSelectionModel().getSelectedItem();
+		if (selectedFood != null) {
+			selectedFood.decrementQuantity();
+			this.selectFood.refresh();
+		} else {
+			this.showAlert(AlertType.WARNING, "No Selection", "Please select a food item to decrement.");
+		}
+	}
+
+	@FXML
+	void setSelectedFoodQuantity() {
+	    Food selectedFood = this.selectFood.getSelectionModel().getSelectedItem();
+	    if (selectedFood != null) {
+	        selectedFood.setQuantity(5);  // Hardcoded value for testing
+	        System.out.println("Quantity set to 5");
+	        this.selectFood.refresh();
+	    } else {
+	        this.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a food item to set the quantity.");
+	    }
 	}
 
 	private void showAlert(AlertType alertType, String title, String message) {
