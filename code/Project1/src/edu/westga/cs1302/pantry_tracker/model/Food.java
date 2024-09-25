@@ -62,7 +62,26 @@ public class Food {
 	 * @param quantity the quantity inputed
 	 */
 	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+		this.quantity = Math.max(quantity, 0);
+	}
+
+	/**
+	 * method that increases the quantity of a food item
+	 * 
+	 */
+	public void incrementQuantity() {
+		this.quantity++;
+	}
+
+	/**
+	 * a mesthod that derceases the quantity of food
+	 * 
+	 * 
+	 */
+	public void decrementQuantity() {
+		if (this.quantity > 0) {
+			this.quantity--;
+		}
 	}
 
 	/**
