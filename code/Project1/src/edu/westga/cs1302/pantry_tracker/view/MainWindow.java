@@ -36,6 +36,8 @@ public class MainWindow {
 	private TextField quantity;
 	@FXML
 	private Label settingTheQuantity;
+	@FXML
+	private Button removeButton;
 
 	@FXML
 	void initialize() {
