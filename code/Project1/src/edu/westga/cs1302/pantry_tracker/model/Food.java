@@ -15,7 +15,7 @@ public class Food {
 	private int quantity;
 
 	/**
-	 * a two param consuctor that adds the name and type of food
+	 * a 3 param consuctor that adds the name and type of food
 	 * 
 	 * @precondtion none
 	 * @postcondtion none
@@ -75,7 +75,7 @@ public class Food {
 	}
 
 	/**
-	 * a mesthod that derceases the quantity of food
+	 * a method that derceases the quantity of food
 	 * 
 	 * 
 	 */

@@ -1,6 +1,7 @@
 package edu.westga.cs1302.pantry_tracker.view;
 
 import edu.westga.cs1302.pantry_tracker.model.Food;
+import edu.westga.cs1302.pantry_tracker.model.Pantry;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -20,6 +21,7 @@ import javafx.scene.control.TextField;
  */
 public class MainWindow {
 
+	private Pantry foodArray;
 	@FXML
 	private TextField foodName;
 
@@ -51,7 +53,7 @@ public class MainWindow {
 
 		this.typeOfFood.setItems(
 				FXCollections.observableArrayList("Vegetable", "Meat", "Bread", "Fruit", "Dessert", "Ingredient"));
-
+		this.foodArray = new Pantry();
 	}
 
 	@FXML
@@ -66,10 +68,12 @@ public class MainWindow {
 			}
 
 			Food newFood = new Food(name, type, quantity);
+			this.foodArray.addFood(newFood);
 			this.selectFood.getItems().add(newFood);
 
 			this.foodName.clear();
 			this.typeOfFood.getSelectionModel().clearSelection();
+			this.selectFood.refresh();
 		} catch (Exception error) {
 
 			this.showAlert(AlertType.ERROR, "Error", error.getMessage());
@@ -80,7 +84,7 @@ public class MainWindow {
 	void incrementSelectedFoodQuantity() {
 		Food selectedFood = this.selectFood.getSelectionModel().getSelectedItem();
 		if (selectedFood != null) {
-			selectedFood.incrementQuantity();
+			this.foodArray.incrementFood(selectedFood);
 			this.selectFood.refresh();
 		} else {
 			this.showAlert(AlertType.WARNING, "No Selection", "Please select a food item to increment.");
@@ -91,7 +95,7 @@ public class MainWindow {
 	void decrementSelectedFoodQuantity() {
 		Food selectedFood = this.selectFood.getSelectionModel().getSelectedItem();
 		if (selectedFood != null) {
-			selectedFood.decrementQuantity();
+			this.foodArray.decrementFood(selectedFood);
 			this.selectFood.refresh();
 		} else {
 			this.showAlert(AlertType.WARNING, "No Selection", "Please select a food item to decrement.");
@@ -111,14 +115,34 @@ public class MainWindow {
 				selectedFood.setQuantity(newQuantity);
 				System.out.println("Updated food: " + selectedFood);
 
+				this.foodArray.setFoodQuantity(selectedFood, newQuantity);
 				this.selectFood.refresh();
-
-				this.selectFood.getItems().set(this.selectFood.getSelectionModel().getSelectedIndex(), selectedFood);
 			} catch (NumberFormatException error) {
 				this.showAlert(Alert.AlertType.ERROR, "Invalid Input", "Please enter a valid number for the quantity.");
 			}
 		} else {
 			this.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a food item to set the quantity.");
+		}
+	}
+
+	@FXML
+	void removeFoodToPantry() {
+
+		Food selectedFood = this.selectFood.getSelectionModel().getSelectedItem();
+
+		if (selectedFood != null) {
+
+			this.foodArray.removeFood(selectedFood);
+
+			this.selectFood.getItems().remove(selectedFood);
+
+			this.foodName.clear();
+			this.typeOfFood.getSelectionModel().clearSelection();
+			this.quantity.clear();
+
+			this.selectFood.refresh();
+		} else {
+			this.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a food item to remove.");
 		}
 	}
 
