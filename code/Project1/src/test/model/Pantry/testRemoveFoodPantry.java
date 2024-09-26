@@ -13,14 +13,14 @@ class testRemoveFoodPantry {
 
 	 @Test
 	    void testRemoveFood() {
-	        Pantry pantry = new Pantry();  // Initialize pantry
-	        Food apple = new Food("Apple", "Fruit", 5);  // Create food items
+	        Pantry pantry = new Pantry();  
+	        Food apple = new Food("Apple", "Fruit", 5);  
 	        Food banana = new Food("Banana", "Fruit", 2);
 
-	        pantry.addFood(apple);  // Add both food items to the pantry
+	        pantry.addFood(apple);  
 	        pantry.addFood(banana);
 
-	        pantry.removeFood(apple);  // Remove apple from the pantry
+	        pantry.removeFood(apple);  
 
 	        ArrayList<Food> foodList = pantry.getFoodArray();
 

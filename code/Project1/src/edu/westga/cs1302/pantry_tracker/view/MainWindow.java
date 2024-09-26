@@ -2,6 +2,7 @@ package edu.westga.cs1302.pantry_tracker.view;
 
 import edu.westga.cs1302.pantry_tracker.model.Food;
 import edu.westga.cs1302.pantry_tracker.model.Pantry;
+import edu.westga.cs1302.pantry_tracker.model.PantryUtils;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -41,7 +42,7 @@ public class MainWindow {
 	@FXML
 	private Button removeButton;
 	@FXML
-    private Button countitems;
+	private Button countitems;
 
 	@FXML
 	void initialize() {
@@ -56,6 +57,7 @@ public class MainWindow {
 		this.typeOfFood.setItems(
 				FXCollections.observableArrayList("Vegetable", "Meat", "Bread", "Fruit", "Dessert", "Ingredient"));
 		this.foodArray = new Pantry();
+
 	}
 
 	@FXML
@@ -146,6 +148,18 @@ public class MainWindow {
 		} else {
 			this.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a food item to remove.");
 		}
+	}
+
+	@FXML
+	void showTotalQuantityPopup() {
+
+		int totalQuantity = PantryUtils.getTotalQuantity(this.foodArray);
+
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Total Quantity");
+		alert.setHeaderText(null);
+		alert.setContentText("The total quantity of food in the pantry is: " + totalQuantity);
+		alert.showAndWait();
 	}
 
 	private void showAlert(AlertType alertType, String title, String message) {
