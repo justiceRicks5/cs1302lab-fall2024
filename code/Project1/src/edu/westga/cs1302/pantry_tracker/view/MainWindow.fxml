@@ -20,5 +20,6 @@
       <Button fx:id="increment" layoutX="632.0" layoutY="53.0" mnemonicParsing="false" onAction="#incrementSelectedFoodQuantity" text="+" />
       <Button fx:id="decrement" layoutX="634.0" layoutY="100.0" mnemonicParsing="false" onAction="#decrementSelectedFoodQuantity" text="-" />
       <Button layoutX="80.0" layoutY="325.0" mnemonicParsing="false" onAction="#removeFoodToPantry" text="remove" />
+      <Button fx:id="countitems" layoutX="442.0" layoutY="262.0" mnemonicParsing="false" onAction="#countFoodToPantry" text="count items " />
    </children>
 </AnchorPane>
