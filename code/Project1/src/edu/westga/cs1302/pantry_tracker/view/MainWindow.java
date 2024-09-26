@@ -40,6 +40,8 @@ public class MainWindow {
 	private Label settingTheQuantity;
 	@FXML
 	private Button removeButton;
+	@FXML
+    private Button countitems;
 
 	@FXML
 	void initialize() {
