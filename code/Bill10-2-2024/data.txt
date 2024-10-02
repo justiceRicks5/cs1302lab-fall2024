@@ -1,4 +1,5 @@
-Alice, 
-1, 
-adasd, 
-23.0
+Alice
+justice,12.0
+leek,23.0
+afd,22.0
+jfdkjf,12.0

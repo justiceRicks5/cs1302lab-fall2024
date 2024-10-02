@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -31,13 +29,13 @@ public class BillPersistenceManager {
 	 */
 	public static void saveBillData(Bill bill) throws IOException {
 		try (FileWriter file = new FileWriter(DATA_FILE)) {
-			String nameAndSize = bill.getServerName() + ", \n" + bill.getSize();
+			String nameAndSize = bill.getServerName() + System.lineSeparator();
 
 			for (BillItem currItems : bill.getItems()) {
-				nameAndSize += ", \n" + currItems.getName();
+				nameAndSize += currItems.getName();
 				double amount = currItems.getAmount();
 				String.valueOf(amount);
-				nameAndSize += ", \n" + amount;
+				nameAndSize += "," + amount + System.lineSeparator();
 			}
 
 			file.write(nameAndSize);
@@ -57,18 +55,39 @@ public class BillPersistenceManager {
 	 * @return the bill loaded
 	 * @throws FileNotFoundException
 	 */
-	public static Bill[] loadBillData() throws FileNotFoundException {
-		List<Bill> bills = new ArrayList<Bill>();
+	public static Bill loadBillData() throws FileNotFoundException, IOException {
+		Bill bill = new Bill();
 		File inputFile = new File(DATA_FILE);
 		try (Scanner reader = new Scanner(inputFile)) {
-			for (int lineNumber = 1; reader.hasNextLine(); lineNumber++) {
-				String[] parts = reader.nextLine().strip().split(" , ");
-				String name = parts[0];
+			String name = reader.nextLine();
+			bill.setServerName(name);
 
+			for (int lineNumber = 1; reader.hasNextLine(); lineNumber++) {
+				String baseLine = reader.nextLine();
+				String strippedLine = baseLine.strip();
+				String[] parts = strippedLine.split(",");
+
+				try {
+					BillItem item;
+					String name1 = parts[0];
+					double amount = Double.parseDouble(parts[1]);
+					item = new BillItem(name1, amount);
+					bill.addItem(item);
+				} catch (NumberFormatException numError) {
+					throw new IOException(
+							"Unable to read bill (was not a valid double) on line " + lineNumber + " : " + strippedLine);
+				} catch (IllegalArgumentException dataError) {
+					throw new IOException(
+							"Unable to create bill, bad name/amount on line " + lineNumber + " : " + strippedLine);
+				} catch (IndexOutOfBoundsException dataError) {
+					throw new IOException(
+							"Missing either name and/or amount on line " + lineNumber + " : " + strippedLine);
+				}
 			}
+
 		}
 
-		return null;
+		return bill;
 
 	}
 
