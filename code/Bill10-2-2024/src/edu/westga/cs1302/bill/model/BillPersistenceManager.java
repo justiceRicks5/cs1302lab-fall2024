@@ -1,7 +1,12 @@
 package edu.westga.cs1302.bill.model;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * Supports saving and loading bill data,
@@ -24,11 +29,19 @@ public class BillPersistenceManager {
 	 * @param bill the bill to save
 	 * @throws IOException
 	 */
-	public static void saveBillData(Bill[] bill) throws IOException {
+	public static void saveBillData(Bill bill) throws IOException {
 		try (FileWriter file = new FileWriter(DATA_FILE)) {
-			for (Bill currentBill : bill) {
-				file.write(currentBill.getItems() + ", " + currentBill.getServerName() + "," + currentBill.getSize()); //forgot to make a seperate branch 
+			String nameAndSize = bill.getServerName() + "," + bill.getSize();
+
+			for (BillItem currItems : bill.getItems()) {
+				nameAndSize += "," + currItems.getName();
+				double amount = currItems.getAmount();
+				String.valueOf(amount);
+				nameAndSize += "," + amount;
 			}
+
+			file.write(nameAndSize);
+
 		}
 
 	}
@@ -42,9 +55,21 @@ public class BillPersistenceManager {
 	 * @postcondition none
 	 * 
 	 * @return the bill loaded
+	 * @throws FileNotFoundException
 	 */
-	public static Bill loadBillData() {
+	public static Bill[] loadBillData() throws FileNotFoundException {
+		List<Bill> bills = new ArrayList<Bill>();
+		File inputFile = new File(DATA_FILE);
+		try (Scanner reader = new Scanner(inputFile)) {
+			for (int lineNumber = 1; reader.hasNextLine(); lineNumber++) {
+				String[] parts = reader.nextLine().strip().split(" , ");
+				String name = parts[0];
+
+			}
+		}
+
 		return null;
+
 	}
 
 }
