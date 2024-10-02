@@ -31,13 +31,13 @@ public class BillPersistenceManager {
 	 */
 	public static void saveBillData(Bill bill) throws IOException {
 		try (FileWriter file = new FileWriter(DATA_FILE)) {
-			String nameAndSize = bill.getServerName() + "," + bill.getSize();
+			String nameAndSize = bill.getServerName() + ", \n" + bill.getSize();
 
 			for (BillItem currItems : bill.getItems()) {
-				nameAndSize += "," + currItems.getName();
+				nameAndSize += ", \n" + currItems.getName();
 				double amount = currItems.getAmount();
 				String.valueOf(amount);
-				nameAndSize += "," + amount;
+				nameAndSize += ", \n" + amount;
 			}
 
 			file.write(nameAndSize);
