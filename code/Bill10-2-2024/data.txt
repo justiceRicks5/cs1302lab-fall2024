@@ -1,5 +1,2 @@
-Alice
-justice,12.0
-leek,23.0
-afd,22.0
-jfdkjf,12.0
+Server1
+Item1,invalidAmount

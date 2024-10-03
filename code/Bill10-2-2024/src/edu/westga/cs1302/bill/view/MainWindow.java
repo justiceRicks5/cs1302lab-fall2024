@@ -21,7 +21,6 @@ import javafx.scene.control.TextField;
  */
 public class MainWindow {
 	private Bill bill;
-	private BillPersistenceManager billFile = new BillPersistenceManager();
 
 	@FXML
 	private TextField name;
