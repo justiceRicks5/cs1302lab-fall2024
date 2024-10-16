@@ -21,6 +21,6 @@
       <Label layoutX="233.0" layoutY="43.0" text="Server" />
       <Line endX="28.0" endY="-152.0" layoutX="173.0" layoutY="160.0" startX="28.0" startY="-46.0" />
       <ComboBox fx:id="format" layoutX="195.0" layoutY="295.0" onAction="#changeFormat" prefHeight="17.0" prefWidth="99.0" promptText="format" />
-      <ComboBox fx:id="order" layoutX="21.0" layoutY="295.0" prefHeight="17.0" prefWidth="99.0" promptText="order" />
+      <ComboBox fx:id="order" layoutX="21.0" layoutY="295.0" onAction="#sortBill" prefHeight="17.0" prefWidth="99.0" promptText="order" />
    </children>
 </AnchorPane>

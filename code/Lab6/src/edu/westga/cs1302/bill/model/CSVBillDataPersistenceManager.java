@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 public class CSVBillDataPersistenceManager extends BillPersistenceManager {
 
-	public static final String DATA_FILE = "billData.csv";
+	public static final String DATA_FILE = "data.txt";
 	private static final String DELIMITER = ",";
 
 	/**

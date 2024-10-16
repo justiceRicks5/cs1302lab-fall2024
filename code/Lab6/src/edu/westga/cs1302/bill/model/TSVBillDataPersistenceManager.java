@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class TSVBillDataPersistenceManager extends BillPersistenceManager {
 
-    public static final String DATA_FILE = "billData.tsv";
+    public static final String DATA_FILE = "data.txt";
     private static final String DELIMITER = "\t";
 
     /**
