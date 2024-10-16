@@ -1,10 +1,14 @@
 package edu.westga.cs1302.bill.view;
 
 import java.io.IOException;
+import java.util.Comparator;
+import java.util.List;
 
 import edu.westga.cs1302.bill.model.Bill;
 import edu.westga.cs1302.bill.model.BillItem;
 import edu.westga.cs1302.bill.model.BillPersistenceManager;
+import edu.westga.cs1302.bill.model.CSVBillDataPersistenceManager;
+import edu.westga.cs1302.bill.model.TSVBillDataPersistenceManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -29,6 +33,10 @@ public class MainWindow {
 	private TextArea receiptArea;
 	@FXML
 	private ComboBox<String> serverName;
+	@FXML
+	private ComboBox<BillPersistenceManager> format;
+	@FXML
+	private ComboBox<String> order;
 
 	@FXML
 	void addItem(ActionEvent event) {
@@ -61,10 +69,21 @@ public class MainWindow {
 	@FXML
 	void saveBillData(ActionEvent event) {
 		try {
-			BillPersistenceManager.saveBillData(this.bill);
+			if (this.format.getSelectionModel().getSelectedItem().equals("TSV")) {
+				TSVBillDataPersistenceManager tsvBill = new TSVBillDataPersistenceManager();
+				tsvBill.saveBillData(this.bill);
+			}
+			if(this.format.getSelectionModel().getSelectedItem().equals("CSV")) {
+				CSVBillDataPersistenceManager csvBill = new CSVBillDataPersistenceManager();
+				csvBill.saveBillData(this.bill);
+			}
+			
 		} catch (IOException writeError) {
-			this.displayErrorPopup("Unable to save data to file!");
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setContentText("Unable to save data to file!");
+			alert.showAndWait();
 		}
+
 	}
 
 	private void displayErrorPopup(String message) {
@@ -74,10 +93,22 @@ public class MainWindow {
 	}
 
 	@FXML
+	void changeFormat(ActionEvent event) {
+
+	}
+
+	@FXML
+	void changeOrder(ActionEvent event) {
+
+	}
+
+	@FXML
 	void initialize() {
 		this.serverName.getItems().add("Bob");
 		this.serverName.getItems().add("Alice");
 		this.serverName.getItems().add("Trudy");
+		this.order.getItems().add("Ascending");
+		this.order.getItems().add("Descending");
 		this.bill = BillPersistenceManager.loadBillData();
 		this.updateReceipt();
 	}
