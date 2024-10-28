@@ -1,4 +1,4 @@
-package edu.westga.cs1302.bill;
+package edu.westga.cs1302.project2;
 
 import java.io.IOException;
 
@@ -15,7 +15,7 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-	private static final String WINDOW_TITLE = "Bill System";
+	private static final String WINDOW_TITLE = "Pantry Tracker";
 	private static final String GUI_RESOURCE = "view/MainWindow.fxml";
 	  
 	/** JavaFX entry point.​
