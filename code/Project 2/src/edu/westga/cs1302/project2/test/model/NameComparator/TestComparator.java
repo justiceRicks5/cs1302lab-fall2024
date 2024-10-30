@@ -1,4 +1,4 @@
-package test.model.NameComparator;
+package edu.westga.cs1302.project2.test.model.NameComparator;
 
 import static org.junit.jupiter.api.Assertions.*;
 

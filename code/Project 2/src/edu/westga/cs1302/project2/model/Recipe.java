@@ -49,6 +49,5 @@ public class Recipe {
 	public void addIngredient(Ingredient ingredient) {
 		this.ingredients.add(ingredient);
 	}
-	
 
 }

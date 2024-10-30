@@ -1,4 +1,4 @@
-package test.model.TypeComparator;
+package edu.westga.cs1302.project2.test.model.TypeComparator;
 
 import static org.junit.jupiter.api.Assertions.*;
 

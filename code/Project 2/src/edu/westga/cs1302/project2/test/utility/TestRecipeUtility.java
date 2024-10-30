@@ -1,4 +1,4 @@
-package test.utility;
+package edu.westga.cs1302.project2.test.utility;
 
 import static org.junit.jupiter.api.Assertions.*;
 
