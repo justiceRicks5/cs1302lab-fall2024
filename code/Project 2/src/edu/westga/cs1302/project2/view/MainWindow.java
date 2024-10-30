@@ -32,6 +32,12 @@ public class MainWindow {
 	private ComboBox<Comparator<Ingredient>> sortBy;
 
 	@FXML
+	private ListView<?> ingriendentsForRecipe;
+
+	@FXML
+	private TextField recipeName;
+
+	@FXML
 	void addIngredient(ActionEvent event) {
 		try {
 			this.ingredientsList.getItems()
