@@ -1,9 +1,12 @@
 package edu.westga.cs1302.project2.view;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 
 import edu.westga.cs1302.project2.model.NameComparator;
+import edu.westga.cs1302.project2.model.Recipe;
+import edu.westga.cs1302.project2.model.RecipeFileWriter;
 import edu.westga.cs1302.project2.model.Ingredient;
 import edu.westga.cs1302.project2.model.TypeComparator;
 import javafx.collections.FXCollections;
@@ -32,10 +35,12 @@ public class MainWindow {
 	private ComboBox<Comparator<Ingredient>> sortBy;
 
 	@FXML
-	private ListView<?> ingriendentsForRecipe;
+	private ListView<Ingredient> ingriendentsForRecipe;
 
 	@FXML
 	private TextField recipeName;
+
+	private ObservableList<Ingredient> recipeIngredients = FXCollections.observableArrayList();
 
 	@FXML
 	void addIngredient(ActionEvent event) {
@@ -62,6 +67,34 @@ public class MainWindow {
 		}
 	}
 
+	@FXML
+	void addIngredientToRecipe(ActionEvent event) {
+		Ingredient selectedIngredient = this.ingredientsList.getSelectionModel().getSelectedItem();
+		if (selectedIngredient != null && !this.recipeIngredients.contains(selectedIngredient)) {
+			this.recipeIngredients.add(selectedIngredient);
+		}
+	}
+
+	@FXML
+	void saveRecipe(ActionEvent event) throws IOException {
+		String name = this.recipeName.getText().trim();
+		if (name.isEmpty()) {
+			this.showAlert("Invalid Input", "Recipe name cannot be empty.");
+			return;
+		}
+
+		Recipe recipe = new Recipe(name);
+		recipe.getIngredients().addAll(this.recipeIngredients);
+
+		String filePath = "recipes.txt";
+		try {
+			RecipeFileWriter.writeRecipeToFile(recipe, filePath);
+			this.showAlert("Success", "Recipe saved successfully.");
+		} catch (IllegalStateException error) {
+			this.showAlert("Duplicate Recipe", "A recipe with this name already exists.");
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	@FXML
 	void initialize() {
@@ -75,6 +108,7 @@ public class MainWindow {
 		this.sortBy.setPromptText("Sort By...");
 		this.sortBy.getSelectionModel().selectFirst();
 		this.sortBy.setOnAction(event -> this.sortIngredients());
+		this.ingriendentsForRecipe.setItems(this.recipeIngredients);
 	}
 
 	private void sortIngredients() {
@@ -84,5 +118,12 @@ public class MainWindow {
 		Collections.sort(sortedList, selectedComparator);
 
 		this.ingredientsList.setItems(sortedList);
+	}
+
+	private void showAlert(String title, String message) {
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle(title);
+		alert.setContentText(message);
+		alert.showAndWait();
 	}
 }

@@ -28,9 +28,9 @@
          </font>
       </Label>
       <ListView fx:id="ingriendentsForRecipe" layoutX="285.0" layoutY="137.0" prefHeight="388.0" prefWidth="200.0" />
-      <Button layoutX="31.0" layoutY="574.0" mnemonicParsing="false" text="Add Ingriendent to Recipe List" />
+      <Button layoutX="31.0" layoutY="574.0" mnemonicParsing="false" onAction="#addIngredientToRecipe" text="Add Ingriendent to Recipe List" />
       <TextField fx:id="recipeName" layoutX="306.0" layoutY="100.0" />
       <Label layoutX="345.0" layoutY="75.0" text="Recipe Name" />
-      <Button layoutX="385.0" layoutY="549.0" mnemonicParsing="false" text="Add to Recipe" />
+      <Button layoutX="385.0" layoutY="549.0" mnemonicParsing="false" onAction="#saveRecipe" text="Save Recipe" />
    </children>
 </AnchorPane>

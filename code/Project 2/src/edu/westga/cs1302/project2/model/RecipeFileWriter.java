@@ -22,36 +22,35 @@ public class RecipeFileWriter {
 	 * @param filePath the path to the file where recipes are stored
 	 * @throws IllegalStateException if a recipe with the same name already exists
 	 *                               in the file
+	 * @throws IOException           if an I/O error occurs
 	 * @throws NullPointerException  if the recipe or its name is null
 	 */
-	public static void writeRecipeToFile(Recipe recipe, String filePath)
-			throws NullPointerException, IllegalStateException {
+	public static void writeRecipeToFile(Recipe recipe, String filePath) throws IOException {
 		if (recipe == null || recipe.getName() == null) {
 			throw new NullPointerException("Recipe or recipe name cannot be null");
 		}
 
 		File file = new File(filePath);
+		boolean recipeExists = false;
 
-		try {
-			if (file.exists()) {
-				try (Scanner scanner = new Scanner(file)) {
-					while (scanner.hasNextLine()) {
-						String line = scanner.nextLine();
-						if (line.equals(recipe.getName())) {
-							throw new IllegalStateException("Recipe already exists");
-						}
+		if (file.exists()) {
+			try (Scanner scanner = new Scanner(file)) {
+				while (scanner.hasNextLine()) {
+					String line = scanner.nextLine();
+					if (line.equals(recipe.getName())) {
+						recipeExists = true;
+						break;
 					}
 				}
 			}
+		}
 
-			try (FileWriter writer = new FileWriter(file, true)) {
-				writer.write(recipe.getName() + "\n");
-				writer.write(RecipeUtils.recipeToString(recipe) + "\n");
-			}
+		if (recipeExists) {
+			throw new IllegalStateException("Recipe already exists");
+		}
 
-		} catch (IOException error) {
-			System.out.println("An error occurred while writing the recipe to the file: " + error.getMessage());
-			error.printStackTrace();
+		try (FileWriter writer = new FileWriter(file, true)) {
+			writer.write(RecipeUtils.recipeToString(recipe) + "\n");
 		}
 	}
 }
