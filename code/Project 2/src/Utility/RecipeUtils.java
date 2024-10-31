@@ -1,5 +1,7 @@
 package Utility;
 
+import java.util.List;
+
 import edu.westga.cs1302.project2.model.Ingredient;
 import edu.westga.cs1302.project2.model.Recipe;
 
@@ -31,6 +33,26 @@ public class RecipeUtils {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Converts a list of Recipe objects to a formatted String, with each recipe
+	 * separated by a blank line
+	 * 
+	 * @param recipes a list of Recipe objects to be converted to a String
+	 * @return a formatted String representation of the list of recipes, with each
+	 *         recipe separated by a blank line
+	 * 
+	 */
+	public static String recipeListToString(List<Recipe> recipes) {
+		String result = "";
+		for (int value = 0; value < recipes.size(); value++) {
+			result += recipeToString(recipes.get(value));
+			if (value < recipes.size() - 1) {
+				result += "\n\n";
+			}
+		}
+		return result.trim();
 	}
 
 }
