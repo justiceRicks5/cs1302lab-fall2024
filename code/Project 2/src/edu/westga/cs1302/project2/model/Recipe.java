@@ -19,6 +19,9 @@ public class Recipe {
 	 * @param name a name variable
 	 */
 	public Recipe(String name) {
+		if (name == null) {
+			throw new NullPointerException("name cannot be null");
+		}
 		this.name = name;
 		this.ingredients = new ArrayList<>();
 	}

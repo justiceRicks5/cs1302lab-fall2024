@@ -1,4 +1,4 @@
-package edu.westga.cs1302.project2.test.model;
+package edu.westga.cs1302.project2.test.model.RecipeFileWriter;
 
 import static org.junit.jupiter.api.Assertions.*;
 

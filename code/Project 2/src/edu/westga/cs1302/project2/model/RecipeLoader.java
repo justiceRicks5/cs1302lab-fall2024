@@ -10,7 +10,7 @@ import java.util.Scanner;
  * class that loads recipes from files
  * 
  * 
- * @author justice ricks
+ * @author justice Ricks
  * @version Fall 2024
  */
 
@@ -20,11 +20,20 @@ public class RecipeLoader {
 	/**
 	 * intilaize file path
 	 * 
-	 * @param filePath string that is supposed to represent out filepath
+	 * @param filePath string that is supposed to represent out filepath /**
 	 */
-
 	public RecipeLoader(String filePath) {
 		this.filePath = filePath;
+	}
+
+	/**
+	 * a simple getter for filePath
+	 * 
+	 * @return filePath the filePath to where we will write the file
+	 */
+
+	public String getFilePath() {
+		return this.filePath;
 	}
 
 	/**
@@ -44,6 +53,11 @@ public class RecipeLoader {
 		try (Scanner scanner = new Scanner(file)) {
 			while (scanner.hasNextLine()) {
 				String recipeName = scanner.nextLine();
+
+				if (!scanner.hasNextLine()) {
+					System.out.println("Warning: Missing ingredients line for recipe: " + recipeName);
+					break;
+				}
 				String ingredientsLine = scanner.nextLine();
 
 				Recipe recipe = new Recipe(recipeName);
