@@ -1,8 +1,7 @@
 package edu.westga.cs1302.password_generator.view;
 
-import java.util.Random;
-
-import edu.westga.cs1302.password_generator.model.PasswordGenerator;
+import edu.westga.cs1302.password_generator.ViewModel.PasswordGeneratorViewModel;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -11,62 +10,67 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-/** Codebehind for the MainWindow of the Application.
+/**
+ * Codebehind for the MainWindow of the Application.
  * 
  * @author CS 1302
  * @version Fall 2024
  */
 public class MainWindow {
 
-    @FXML private CheckBox mustIncludeDigits;
-    @FXML private CheckBox mustIncludeLowerCaseLetters;
-    @FXML private CheckBox mustIncludeUpperCaseLetters;
-    @FXML private TextField minimumLength;
-    @FXML private TextArea output;
-    
-    private PasswordGenerator generator;
+	@FXML
+	private CheckBox mustIncludeDigits;
+	@FXML
+	private CheckBox mustIncludeLowerCaseLetters;
+	@FXML
+	private CheckBox mustIncludeUpperCaseLetters;
+	@FXML
+	private TextField minimumLength;
+	@FXML
+	private TextArea output;
 
-    @FXML
-    void generatePassword(ActionEvent event) {
-    	int minimumLength = -1;
-    	
-    	try {
-    		minimumLength = Integer.parseInt(this.minimumLength.getText());
-    	} catch (NumberFormatException numberError) {
-    		Alert alert = new Alert(AlertType.ERROR);
-    		alert.setContentText("Invalid Minimum Length: must be a positive integer, but was " + this.minimumLength.getText());
-    		alert.show();
-    		return;
-    	}
-    	
-    	try {
-    		this.generator.setMinimumLength(minimumLength);
-    	} catch (IllegalArgumentException invalidLengthError) {
-    		Alert alert = new Alert(AlertType.ERROR);
-    		alert.setContentText("Invalid Minimum Length: " + invalidLengthError.getMessage());
-    		alert.show();
-    		return;
-    	}
-    	
-    	this.generator.setMustHaveAtLeastOneDigit(this.mustIncludeDigits.isSelected());
-    	this.generator.setMustHaveAtLeastOneLowerCaseLetter(this.mustIncludeLowerCaseLetters.isSelected());
-    	this.generator.setMustHaveAtLeastOneUpperCaseLetter(this.mustIncludeUpperCaseLetters.isSelected());
-    	
-    	String password = this.generator.generatePassword();
-    	
-    	this.output.setText(password);
-    }
+	private PasswordGeneratorViewModel viewModel;
 
-    @FXML
-    void initialize() {
-        assert this.mustIncludeDigits != null : "fx:id=\"mustIncludeDigits\" was not injected: check your FXML file 'MainWindow.fxml'.";
-        assert this.mustIncludeLowerCaseLetters != null : "fx:id=\"mustIncludeLowerCaseLetters\" was not injected: check your FXML file 'MainWindow.fxml'.";
-        assert this.mustIncludeUpperCaseLetters != null : "fx:id=\"mustIncludeUpperCaseLetters\" was not injected: check your FXML file 'MainWindow.fxml'.";
-        assert this.minimumLength != null : "fx:id=\"minimumLength\" was not injected: check your FXML file 'MainWindow.fxml'.";
-        assert this.output != null : "fx:id=\"output\" was not injected: check your FXML file 'MainWindow.fxml'.";
+	@FXML
+	void generatePassword(ActionEvent event) {
+		int minimumLength;
+		try {
+			minimumLength = Integer.parseInt(this.minimumLength.getText());
+			this.viewModel.minimumLengthProperty().set(minimumLength); 
+		} catch (NumberFormatException numberError) {
+			this.showAlert("Invalid Minimum Length", "Minimum length must be a positive integer.");
+			return;
+		}
 
-        this.minimumLength.setText("1");
-        Random randomNumberGenerator = new Random();
-        this.generator = new PasswordGenerator(randomNumberGenerator.nextLong());
-    }
+		this.viewModel.generatePassword();
+	}
+
+	@FXML
+	void initialize() {
+		this.viewModel = new PasswordGeneratorViewModel();
+
+		this.mustIncludeDigits.selectedProperty().bindBidirectional(this.viewModel.mustHaveAtLeastOneDigitProperty());
+		this.mustIncludeLowerCaseLetters.selectedProperty()
+				.bindBidirectional(this.viewModel.mustHaveAtLeastOneLowerCaseLetterProperty());
+		this.mustIncludeUpperCaseLetters.selectedProperty()
+				.bindBidirectional(this.viewModel.mustHaveAtLeastOneUpperCaseLetterProperty());
+
+		Bindings.bindBidirectional(this.minimumLength.textProperty(), this.viewModel.minimumLengthProperty(),
+				new javafx.util.converter.NumberStringConverter());
+
+		this.output.textProperty().bind(this.viewModel.generatedPasswordProperty());
+	}
+
+	/**
+	 * Displays an alert with the specified title and content message.
+	 *
+	 * @param title   the title of the alert
+	 * @param content the content message of the alert
+	 */
+	private void showAlert(String title, String content) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle(title);
+		alert.setContentText(content);
+		alert.show();
+	}
 }
