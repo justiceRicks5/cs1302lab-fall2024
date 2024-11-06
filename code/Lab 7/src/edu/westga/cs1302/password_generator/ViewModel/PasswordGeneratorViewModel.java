@@ -11,14 +11,12 @@ import javafx.beans.property.StringProperty;
 /**
  * ViewModel in the MVVM pattern for the PasswordGenerator model.
  * 
- * @author Justice Ricks
+ * @author justice ricks
  * @version fall 2024
  * 
- * 
- * 
  */
-
 public class PasswordGeneratorViewModel {
+
 	private PasswordGenerator passwordGenerator;
 
 	private IntegerProperty minimumLengthProperty;
@@ -83,7 +81,7 @@ public class PasswordGeneratorViewModel {
 	 * @postcondition none
 	 * 
 	 * @return the BooleanProperty indicating if the password must have at least one
-	 *         upper case letter.
+	 *         uppercase letter.
 	 */
 	public BooleanProperty mustHaveAtLeastOneUpperCaseLetterProperty() {
 		return this.mustHaveAtLeastOneUpperCaseLetterProperty;
