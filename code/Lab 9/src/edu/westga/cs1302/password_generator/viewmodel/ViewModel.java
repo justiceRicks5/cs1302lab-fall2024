@@ -23,6 +23,8 @@ public class ViewModel {
 	private StringProperty errorText;
 	
     private PasswordGenerator generator;
+    
+    
 	
 	/** Initialize the properties for the viewmodel
 	 */
