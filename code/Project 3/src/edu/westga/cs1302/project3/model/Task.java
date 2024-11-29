@@ -30,18 +30,40 @@ public class Task {
 		this.description = description;
 	}
 
+	/**
+	 * returns the title
+	 * 
+	 * @return title title summarizing the purpose of the task
+	 */
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
+	/**
+	 * sets the title
+	 * 
+	 * @param title title summarizing the purpose of the task
+	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
+	/**
+	 * returns the description of the task
+	 * 
+	 * @return description giving detail about what is required for the task
+	 */
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
+	/**
+	 * 
+	 * sets the description of the task
+	 * 
+	 * @param  description giving detail about what is required for the
+	 *                    task
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
