@@ -30,21 +30,22 @@ public class TaskStorage {
 	 * @param tasks the set of tasks to save
 	 * @throws IOException if an I/O error occurs
 	 */
-	public static void saveTasks(Task[] tasks) throws IOException { 
-	    if (tasks == null) {
-	        throw new IllegalArgumentException("Must provide an array of tasks");
-	    }
-	    try (FileWriter writer = new FileWriter(DATA_FILE)) {
-	        if (tasks.length == 0) {
-	            writer.write("");
-	        } else {
-	            for (Task currTask : tasks) {
-	                if (currTask != null) {
-	                    writer.write(currTask.getTitle().trim() + "," + currTask.getDescription().trim() + System.lineSeparator());
-	                }
-	            }
-	        }
-	    }
+	public static void saveTasks(Task[] tasks) throws IOException {
+		if (tasks == null) {
+			throw new IllegalArgumentException("Must provide an array of tasks");
+		}
+		try (FileWriter writer = new FileWriter(DATA_FILE)) {
+			if (tasks.length == 0) {
+				writer.write("");
+			} else {
+				for (Task currTask : tasks) {
+					if (currTask != null) {
+						writer.write(currTask.getTitle().trim() + "," + currTask.getDescription().trim()
+								+ System.lineSeparator());
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -81,6 +82,34 @@ public class TaskStorage {
 				}
 			}
 		}
+		return tasks.toArray(new Task[0]);
+	}
+
+	/**
+	 * Loads tasks from the specified file.
+	 *
+	 * @param file the file to load tasks from
+	 * @return an array of tasks loaded from the file
+	 * @throws IOException if the file cannot be read or is invalid
+	 */
+	public static Task[] loadTasksFromFile(File file) throws IOException {
+		List<Task> tasks = new ArrayList<>();
+		try (Scanner reader = new Scanner(file)) {
+			for (int lineNumber = 1; reader.hasNextLine(); lineNumber++) {
+				String line = reader.nextLine();
+				String[] parts = line.split(",", 2);
+
+				if (parts.length != 2) {
+					throw new IOException("Invalid format on line " + lineNumber + ": " + line);
+				}
+
+				String title = parts[0].trim();
+				String description = parts[1].trim();
+
+				tasks.add(new Task(title, description));
+			}
+		}
+
 		return tasks.toArray(new Task[0]);
 	}
 

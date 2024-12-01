@@ -1,7 +1,12 @@
 package edu.westga.cs1302.project3.viewmodel;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import edu.westga.cs1302.project3.model.Task;
 import edu.westga.cs1302.project3.model.TaskManager;
+import edu.westga.cs1302.project3.model.TaskStorage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -48,6 +53,27 @@ public class TaskViewModel {
 	 */
 	public ObservableList<Task> getTasks() {
 		return this.tasks;
+	}
+
+	/**
+	 * Loads tasks from the specified file and updates the task list.
+	 *
+	 * @param file the file to load tasks from
+	 * @throws IOException if the file is not valid or cannot be read
+	 */
+	public void loadTasksFromFile(File file) throws IOException {
+		if (file == null) {
+			throw new IllegalArgumentException("File cannot be null.");
+		}
+
+		try {
+			Task[] loadedTasks = TaskStorage.loadTasksFromFile(file);
+			this.tasks.setAll(loadedTasks); 
+		} catch (FileNotFoundException error) {
+			throw new IOException("File not found: " + file.getAbsolutePath(), error);
+		} catch (IOException error) {
+			throw new IOException("Invalid file format: " + file.getAbsolutePath(), error);
+		}
 	}
 
 	/**
