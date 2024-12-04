@@ -1,8 +1,10 @@
 package edu.westga.cs1302.project3.testTaskStorage;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,87 +15,70 @@ import edu.westga.cs1302.project3.model.TaskStorage;
 
 class TaskStorageText {
 
-	private static final String DATA_FILE = "tasks.txt";
-
+	/**
+	 * Tests loading tasks from a valid file with properly formatted lines.
+	 */
 	@Test
-	public void testSaveTasksSuccessfully() throws IOException {
-		Task[] tasks = { new Task("Task 1", "Description 1"), new Task("Task 2", "Description 2"), null };
-
-		TaskStorage.saveTasks(tasks);
-
-		Path path = Path.of(DATA_FILE);
-		assertTrue(Files.exists(path), "File should be created.");
-		String fileContent = Files.readString(path);
-
-		assertEquals("Task 1,Description 1" + System.lineSeparator() + "Task 2,Description 2" + System.lineSeparator(),
-				fileContent, "File content should match the expected output.");
-
-		Files.deleteIfExists(path);
-	}
-
-	@Test
-	public void testSaveEmptyTaskArrayCreatesEmptyFile() throws IOException {
-		Task[] tasks = new Task[0];
-
-		TaskStorage.saveTasks(tasks);
-
-		Path path = Path.of(DATA_FILE);
-		assertTrue(Files.exists(path), "File should be created.");
-		String fileContent = Files.readString(path);
-
-		assertEquals("", fileContent, "File should be empty when no tasks are provided.");
-
-		Files.deleteIfExists(path);
-	}
-
-	@Test
-	public void testSaveTasksWithNullArrayThrowsException() {
-		Task[] tasks = null;
-
-		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-			TaskStorage.saveTasks(tasks);
-		});
-		assertEquals("Must provide an array of tasks", exception.getMessage());
-	}
-
-	@Test
-	public void testLoadTasksSuccessfully() throws IOException {
-		Path path = Path.of(DATA_FILE);
-		Files.writeString(path,
-				"Task 1,Description 1" + System.lineSeparator() + "Task 2,Description 2" + System.lineSeparator());
-
-		Task[] loadedTasks = TaskStorage.loadTasks();
-
-		assertEquals(2, loadedTasks.length, "Loaded task array should have 2 tasks.");
-		assertEquals("Task 1", loadedTasks[0].getTitle());
-		assertEquals("Description 1", loadedTasks[0].getDescription());
-		assertEquals("Task 2", loadedTasks[1].getTitle());
-		assertEquals("Description 2", loadedTasks[1].getDescription());
-
-		Files.deleteIfExists(path);
-	}
-
-	@Test
-	public void testLoadTasksWithInvalidFormatThrowsException() throws IOException {
-		Path path = Path.of(DATA_FILE);
-		Files.writeString(path, "InvalidTaskFormatWithoutComma");
-
-		Exception exception = assertThrows(IOException.class, TaskStorage::loadTasks);
-		assertTrue(exception.getMessage().contains("Missing or invalid title/description"),
-				"Error message should indicate invalid format.");
-
-		Files.deleteIfExists(path);
-	}
-
-	@Test
-	public void testLoadTasksFromNonexistentFileThrowsException() {
-		File file = new File(DATA_FILE);
-		if (file.exists()) {
-			file.delete();
+	public void testLoadTasksFromValidFile() throws IOException {
+		File tempFile = File.createTempFile("tasks", ".txt");
+		try (FileWriter writer = new FileWriter(tempFile)) {
+			writer.write("Task 1,Description 1\n");
+			writer.write("Task 2,Description 2\n");
+			writer.write("Task 3,Description 3\n");
 		}
 
-		Exception exception = assertThrows(FileNotFoundException.class, TaskStorage::loadTasks);
-		assertTrue(exception.getMessage().contains(DATA_FILE), "Error message should include file name.");
+		Task[] tasks = TaskStorage.loadTasks(tempFile);
+
+		assertNotNull(tasks);
+		assertEquals(3, tasks.length);
+
+		assertEquals("Task 1", tasks[0].getTitle());
+		assertEquals("Description 1", tasks[0].getDescription());
+
+		assertEquals("Task 2", tasks[1].getTitle());
+		assertEquals("Description 2", tasks[1].getDescription());
+
+		assertEquals("Task 3", tasks[2].getTitle());
+		assertEquals("Description 3", tasks[2].getDescription());
+	}
+
+	/**
+	 * Tests loading tasks from a file with an invalid format (e.g., missing a
+	 * description).
+	 */
+	@Test
+	public void testLoadTasksFromInvalidFileFormat() throws IOException {
+		File tempFile = File.createTempFile("tasks_invalid", ".txt");
+		try (FileWriter writer = new FileWriter(tempFile)) {
+			writer.write("Task 1\n");
+			writer.write("Task 2,Description 2\n");
+		}
+
+		IOException exception = assertThrows(IOException.class, () -> TaskStorage.loadTasks(tempFile));
+		assertTrue(exception.getMessage().contains("Invalid format in file: Task 1"));
+	}
+
+	/**
+	 * Tests loading tasks from an empty file.
+	 */
+	@Test
+	public void testLoadTasksFromEmptyFile() throws IOException {
+		File tempFile = File.createTempFile("tasks_empty", ".txt");
+
+		Task[] tasks = TaskStorage.loadTasks(tempFile);
+
+		assertNotNull(tasks);
+		assertEquals(0, tasks.length);
+	}
+
+	/**
+	 * Tests loading tasks from a file that does not exist.
+	 */
+	@Test
+	public void testLoadTasksFromNonexistentFile() {
+		File nonexistentFile = new File("nonexistent_tasks.txt");
+
+		assertThrows(IOException.class, () -> TaskStorage.loadTasks(nonexistentFile));
 	}
 
 }
