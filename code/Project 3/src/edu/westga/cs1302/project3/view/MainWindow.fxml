@@ -14,7 +14,7 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#handleLoadTasks" text="Load Tasks" />
-              <MenuItem mnemonicParsing="false" text="Save Tasks" />
+              <MenuItem mnemonicParsing="false" onAction="#handleSaveTasks" text="Save Tasks" />
               <MenuItem mnemonicParsing="false" text="Add Task" />
               <MenuItem mnemonicParsing="false" text="Add People" />
               <MenuItem mnemonicParsing="false" text="Close" />

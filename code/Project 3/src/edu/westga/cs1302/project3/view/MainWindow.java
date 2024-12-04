@@ -32,12 +32,16 @@ public class MainWindow {
 
 		this.taskListView.setItems(this.viewModel.getTasks());
 
+		this.taskListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			this.viewModel.selectedTaskProperty().set(newValue);
+		});
+
 		this.taskListView.setCellFactory(listView -> new javafx.scene.control.ListCell<>() {
 			@Override
 			protected void updateItem(Task task, boolean empty) {
 				super.updateItem(task, empty);
 				if (empty || task == null) {
-					setText(null);
+					setText("");
 				} else {
 					setText(task.getTitle());
 				}
@@ -62,6 +66,36 @@ public class MainWindow {
 		} catch (IOException error) {
 			this.showErrorDialog("Error Loading Tasks", "Failed to load tasks from file: " + error.getMessage());
 		}
+	}
+
+	/**
+	 * Handles the "Save Tasks" menu item.
+	 */
+	@FXML
+	public void handleSaveTasks() {
+		File defaultFile = new File("tasks.txt");
+
+		try {
+			this.viewModel.saveTasksToFile(defaultFile);
+			this.showInfoDialog("Save Successful",
+					"Tasks were successfully saved to: " + defaultFile.getAbsolutePath());
+		} catch (IOException error) {
+			this.showErrorDialog("Error Saving Tasks", "Failed to save tasks: " + error.getMessage());
+		}
+	}
+
+	/**
+	 * Displays an information dialog with the given title and message.
+	 *
+	 * @param title   the title of the information dialog
+	 * @param message the information message
+	 */
+	private void showInfoDialog(String title, String message) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.showAndWait();
 	}
 
 	/**

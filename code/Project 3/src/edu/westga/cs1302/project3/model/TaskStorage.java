@@ -48,42 +48,29 @@ public class TaskStorage {
 		}
 	}
 
-	/**
-	 * Load the tasks!
-	 * 
-	 * Reads from DATA_FILE. File is assumed to use the same format described by
-	 * saveTasks.
-	 * 
-	 * @precondition none
-	 * @postcondition none
-	 * 
-	 * @return the set of tasks loaded
-	 * @throws FileNotFoundException if the file at DATA_FILE location does not
-	 *                               exist
-	 * @throws IOException           if invalid or missing title/description is
-	 *                               found when trying to create a task
-	 */
-	public static Task[] loadTasks() throws FileNotFoundException, IOException {
-		List<Task> tasks = new ArrayList<>();
-		File inputFile = new File(DATA_FILE);
-		try (Scanner reader = new Scanner(inputFile)) {
-			for (int lineNumber = 1; reader.hasNextLine(); lineNumber++) {
-				String baseLine = reader.nextLine();
-				String strippedLine = baseLine.strip();
-				String[] parts = strippedLine.split(",", 2);
-				try {
-					String title = parts[0];
-					String description = parts[1];
-					Task nextTask = new Task(title, description);
-					tasks.add(nextTask);
-				} catch (IndexOutOfBoundsException | IllegalArgumentException taskDataError) {
-					throw new IOException(
-							"Missing or invalid title/description on line " + lineNumber + " : " + strippedLine);
-				}
-			}
-		}
-		return tasks.toArray(new Task[0]);
-	}
+	 /**
+     * Loads tasks from the specified file.
+     *
+     * @param file the file to load tasks from
+     * @return an array of tasks loaded from the file
+     * @throws IOException if the file is invalid or cannot be read
+     */
+    public static Task[] loadTasks(File file) throws IOException {
+        List<Task> tasks = new ArrayList<>();
+        try (Scanner reader = new Scanner(file)) {
+            while (reader.hasNextLine()) {
+                String line = reader.nextLine();
+                String[] parts = line.split(",", 2);
+
+                if (parts.length != 2) {
+                    throw new IOException("Invalid format in file: " + line);
+                }
+
+                tasks.add(new Task(parts[0].trim(), parts[1].trim()));
+            }
+        }
+        return tasks.toArray(new Task[0]);
+    }
 
 	/**
 	 * Loads tasks from the specified file.
@@ -111,6 +98,29 @@ public class TaskStorage {
 		}
 
 		return tasks.toArray(new Task[0]);
+	}
+
+	/**
+	 * Saves the tasks to the specified file.
+	 *
+	 * @param tasks the tasks to save
+	 * @param file  the file to save tasks to
+	 * @throws IOException if an I/O error occurs while saving tasks
+	 */
+	public static void saveTasks(Task[] tasks, File file) throws IOException {
+		if (tasks == null) {
+			throw new IllegalArgumentException("Tasks cannot be null.");
+		}
+		if (file == null) {
+			throw new IllegalArgumentException("File cannot be null.");
+		}
+		try (FileWriter writer = new FileWriter(file)) {
+			for (Task task : tasks) {
+				if (task != null) {
+					writer.write(task.getTitle().trim() + "," + task.getDescription().trim() + System.lineSeparator());
+				}
+			}
+		}
 	}
 
 }
