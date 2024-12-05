@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import edu.westga.cs1302.project3.model.Task;
+import edu.westga.cs1302.project3.model.TaskManager;
 import edu.westga.cs1302.project3.model.TaskStorage;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -26,11 +27,13 @@ public class TaskViewModel {
 	private ObjectProperty<Task> selectedTask;
 	private StringProperty taskTitle;
 	private StringProperty taskDescription;
+	private TaskManager taskManager;
 
 	/**
 	 * Creates a new TaskViewModel with default tasks.
 	 */
 	public TaskViewModel() {
+		this.taskManager = new TaskManager();
 		this.tasks = FXCollections.observableArrayList();
 		this.selectedTask = new SimpleObjectProperty<>();
 		this.taskTitle = new SimpleStringProperty();
@@ -107,9 +110,11 @@ public class TaskViewModel {
 	 */
 	public void removeSelectedTask() {
 		Task taskToRemove = this.selectedTask.get();
-		if (taskToRemove != null) {
-			this.tasks.remove(taskToRemove);
-		}
+	    if (taskToRemove != null) {
+	        this.taskManager.removeTask(taskToRemove); 
+	        this.tasks.remove(taskToRemove); 
+	        this.selectedTask.set(null); 
+	    }
 	}
 
 	/**

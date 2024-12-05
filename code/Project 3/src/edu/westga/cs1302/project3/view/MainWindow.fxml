@@ -9,27 +9,31 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.westga.cs1302.project3.view.MainWindow">
    <children>
+      <!-- Menu Bar -->
       <MenuBar layoutY="2.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#handleLoadTasks" text="Load Tasks" />
-              <MenuItem mnemonicParsing="false" onAction="#handleSaveTasks" text="Save Tasks" />
-              <MenuItem mnemonicParsing="false" text="Add Task" />
-              <MenuItem mnemonicParsing="false" text="Add People" />
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
+         <menus>
+            <Menu mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#handleLoadTasks" text="Load Tasks" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleSaveTasks" text="Save Tasks" />
+                  <MenuItem mnemonicParsing="false" text="Add Task" />
+                  <MenuItem mnemonicParsing="false" text="Add People" />
+                  <MenuItem mnemonicParsing="false" text="Close" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+         </menus>
       </MenuBar>
-      <!-- Added fx:id to ListView -->
+
+      <!-- Task List -->
       <ListView fx:id="taskListView" layoutX="14.0" layoutY="34.0" prefHeight="200.0" prefWidth="200.0" />
-      <Button layoutX="219.0" layoutY="34.0" mnemonicParsing="false" text="+" />
-      <Button layoutX="219.0" layoutY="67.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="-" />
+
+      <!-- Buttons -->
+      <Button fx:id="addTaskButton" layoutX="219.0" layoutY="34.0" mnemonicParsing="false" onAction="#handleAddTaskWindow" text="+" />
+      <Button fx:id="removeTaskButton" layoutX="219.0" layoutY="67.0" mnemonicParsing="false" onAction="#handleRemoveTask" prefHeight="25.0" prefWidth="25.0" text="-" />
    </children>
 </AnchorPane>
