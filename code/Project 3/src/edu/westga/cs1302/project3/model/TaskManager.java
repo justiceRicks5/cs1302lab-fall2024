@@ -1,7 +1,9 @@
 package edu.westga.cs1302.project3.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * stores a list of task and manages when you ad dor remover one
@@ -12,12 +14,14 @@ import java.util.List;
  */
 public class TaskManager {
 	private List<Task> tasks;
+	private Map<String, Task> taskLookup;
 
 	/**
 	 * intilazes the arrayList
 	 */
 	public TaskManager() {
 		this.tasks = new ArrayList<Task>();
+		   this.taskLookup = new HashMap<>();
 	}
 
 	/**
@@ -27,10 +31,15 @@ public class TaskManager {
 	 *             to do
 	 */
 	public void addTask(Task task) {
-		if (task == null) {
-			throw new IllegalArgumentException("Task cannot be null.");
-		}
-		this.tasks.add(task);
+		 if (task == null) {
+		        throw new IllegalArgumentException("Task cannot be null.");
+		    }
+		    Task existingTask = this.taskLookup.get(task.getTitle());
+		    if (existingTask != null && existingTask.getDescription().equals(task.getDescription())) {
+		        throw new IllegalArgumentException("Duplicate task with the same title and description.");
+		    }
+		    this.tasks.add(task);
+		    this.taskLookup.put(task.getTitle(), task);
 	}
 
 	/**
@@ -40,7 +49,11 @@ public class TaskManager {
 	 *             to do
 	 */
 	public void removeTask(Task task) {
+		if (task == null) {
+	        throw new IllegalArgumentException();
+		}
 		this.tasks.remove(task);
+	    this.taskLookup.remove(task.getTitle());
 	}
 
 	/**
