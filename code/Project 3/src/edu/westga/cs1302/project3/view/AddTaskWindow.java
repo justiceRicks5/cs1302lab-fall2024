@@ -24,7 +24,6 @@ public class AddTaskWindow {
 		String title = this.taskTitleField.getText();
 		String description = this.taskDescriptionField.getText();
 
-		// Validate input
 		if (title == null || title.isBlank() || description == null || description.isBlank()) {
 			System.out.println("Task title and description cannot be empty.");
 			return;
@@ -32,8 +31,8 @@ public class AddTaskWindow {
 
 		System.out.printf("Task Added: %s - %s%n", title, description);
 
-		// Close the AddTaskWindow
 		Stage stage = (Stage) this.taskTitleField.getScene().getWindow();
+		stage.close();
 		stage.close();
 	}
 
