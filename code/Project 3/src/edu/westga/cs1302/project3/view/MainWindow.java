@@ -39,13 +39,19 @@ public class MainWindow {
 	public void initialize() {
 		this.viewModel = new TaskViewModel();
 
-		this.addTaskButton.setOnAction(event -> this.handleAddTaskWindow());
-
 		this.taskListView.setItems(this.viewModel.getTasks());
+
 		this.removeTaskButton.disableProperty().bind(this.viewModel.selectedTaskProperty().isNull());
 
+		this.addTaskButton.setOnAction(event -> this.handleAddTaskWindow());
+		this.removeTaskButton.setOnAction(event -> this.handleRemoveTask());
+
 		this.taskListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			this.viewModel.selectedTaskProperty().set(newValue);
+			if (newValue != null) {
+				this.viewModel.selectedTaskProperty().set(newValue);
+			} else {
+				this.viewModel.selectedTaskProperty().set(null);
+			}
 		});
 
 		this.taskListView.setCellFactory(listView -> new javafx.scene.control.ListCell<>() {
@@ -59,6 +65,10 @@ public class MainWindow {
 				}
 			}
 		});
+
+		this.viewModel.selectedTaskProperty().set(null);
+
+		this.taskListView.requestFocus();
 	}
 
 	/**

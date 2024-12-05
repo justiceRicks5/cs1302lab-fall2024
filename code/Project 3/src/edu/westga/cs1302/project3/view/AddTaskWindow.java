@@ -1,6 +1,7 @@
 package edu.westga.cs1302.project3.view;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -45,7 +46,11 @@ public class AddTaskWindow {
 			Stage stage = (Stage) this.taskTitleField.getScene().getWindow();
 			stage.close();
 		} catch (IllegalArgumentException error) {
-			System.out.println(error.getMessage());
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Error Adding Task");
+			alert.setHeaderText("Unable to add task.");
+			alert.setContentText(error.getMessage());
+			alert.showAndWait();
 		}
 	}
 

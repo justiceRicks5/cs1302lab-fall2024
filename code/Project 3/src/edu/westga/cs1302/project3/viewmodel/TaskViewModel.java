@@ -99,6 +99,7 @@ public class TaskViewModel {
 		}
 
 		Task newTask = new Task(this.taskTitle.get(), this.taskDescription.get());
+		this.taskManager.addTask(newTask);
 		this.tasks.add(newTask);
 
 		this.taskTitle.set("");
@@ -110,11 +111,11 @@ public class TaskViewModel {
 	 */
 	public void removeSelectedTask() {
 		Task taskToRemove = this.selectedTask.get();
-	    if (taskToRemove != null) {
-	        this.taskManager.removeTask(taskToRemove); 
-	        this.tasks.remove(taskToRemove); 
-	        this.selectedTask.set(null); 
-	    }
+		if (taskToRemove != null) {
+			this.taskManager.removeTask(taskToRemove);
+			this.tasks.remove(taskToRemove);
+			this.selectedTask.set(null);
+		}
 	}
 
 	/**

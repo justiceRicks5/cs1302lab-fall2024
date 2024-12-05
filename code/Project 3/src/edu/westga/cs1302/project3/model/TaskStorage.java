@@ -1,7 +1,6 @@
 package edu.westga.cs1302.project3.model;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,29 +47,29 @@ public class TaskStorage {
 		}
 	}
 
-	 /**
-     * Loads tasks from the specified file.
-     *
-     * @param file the file to load tasks from
-     * @return an array of tasks loaded from the file
-     * @throws IOException if the file is invalid or cannot be read
-     */
-    public static Task[] loadTasks(File file) throws IOException {
-        List<Task> tasks = new ArrayList<>();
-        try (Scanner reader = new Scanner(file)) {
-            while (reader.hasNextLine()) {
-                String line = reader.nextLine();
-                String[] parts = line.split(",", 2);
+	/**
+	 * Loads tasks from the specified file.
+	 *
+	 * @param file the file to load tasks from
+	 * @return an array of tasks loaded from the file
+	 * @throws IOException if the file is invalid or cannot be read
+	 */
+	public static Task[] loadTasks(File file) throws IOException {
+		List<Task> tasks = new ArrayList<>();
+		try (Scanner reader = new Scanner(file)) {
+			while (reader.hasNextLine()) {
+				String line = reader.nextLine();
+				String[] parts = line.split(",", 2);
 
-                if (parts.length != 2) {
-                    throw new IOException("Invalid format in file: " + line);
-                }
+				if (parts.length != 2) {
+					throw new IOException("Invalid format in file: " + line);
+				}
 
-                tasks.add(new Task(parts[0].trim(), parts[1].trim()));
-            }
-        }
-        return tasks.toArray(new Task[0]);
-    }
+				tasks.add(new Task(parts[0].trim(), parts[1].trim()));
+			}
+		}
+		return tasks.toArray(new Task[0]);
+	}
 
 	/**
 	 * Loads tasks from the specified file.
