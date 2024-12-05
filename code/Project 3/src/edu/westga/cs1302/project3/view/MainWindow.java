@@ -63,23 +63,27 @@ public class MainWindow {
 	 */
 	@FXML
 	public void handleAddTaskWindow() {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("AddTaskWindow.fxml"));
-			Scene scene = new Scene(loader.load());
+	    try {
+	        FXMLLoader loader = new FXMLLoader(getClass().getResource("AddTaskWindow.fxml"));
+	        Scene scene = new Scene(loader.load());
 
-			Stage addTaskStage = new Stage();
-			addTaskStage.setTitle("Add Task");
-			addTaskStage.initModality(Modality.APPLICATION_MODAL);
-			addTaskStage.setScene(scene);
-			addTaskStage.showAndWait();
-		} catch (IOException error) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Error Opening Add Task Window");
-			alert.setHeaderText("An error occurred while opening the Add Task window.");
-			alert.setContentText(error.getMessage());
-			alert.showAndWait();
-		}
+	        AddTaskWindow addTaskWindow = loader.getController();
+	        addTaskWindow.setViewModel(this.viewModel);
+
+	        Stage addTaskStage = new Stage();
+	        addTaskStage.setTitle("Add Task");
+	        addTaskStage.initModality(Modality.APPLICATION_MODAL);
+	        addTaskStage.setScene(scene);
+	        addTaskStage.showAndWait();
+	    } catch (IOException error) {
+	        Alert alert = new Alert(Alert.AlertType.ERROR);
+	        alert.setTitle("Error Opening Add Task Window");
+	        alert.setHeaderText("An error occurred while opening the Add Task window.");
+	        alert.setContentText(error.getMessage());
+	        alert.showAndWait();
+	    }
 	}
+
 
 	/**
 	 * Handles the "Load Tasks" menu item.
