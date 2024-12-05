@@ -29,6 +29,8 @@ public class MainWindow {
 	private ListView<Task> taskListView;
 	@FXML
 	private Button addTaskButton;
+	@FXML
+	private Button removeTaskButton;
 
 	/**
 	 * Initializes the Main Window.
@@ -40,6 +42,7 @@ public class MainWindow {
 		this.addTaskButton.setOnAction(event -> this.handleAddTaskWindow());
 
 		this.taskListView.setItems(this.viewModel.getTasks());
+		this.removeTaskButton.disableProperty().bind(this.viewModel.selectedTaskProperty().isNull());
 
 		this.taskListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			this.viewModel.selectedTaskProperty().set(newValue);
@@ -63,27 +66,34 @@ public class MainWindow {
 	 */
 	@FXML
 	public void handleAddTaskWindow() {
-	    try {
-	        FXMLLoader loader = new FXMLLoader(getClass().getResource("AddTaskWindow.fxml"));
-	        Scene scene = new Scene(loader.load());
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("AddTaskWindow.fxml"));
+			Scene scene = new Scene(loader.load());
 
-	        AddTaskWindow addTaskWindow = loader.getController();
-	        addTaskWindow.setViewModel(this.viewModel);
+			AddTaskWindow addTaskWindow = loader.getController();
+			addTaskWindow.setViewModel(this.viewModel);
 
-	        Stage addTaskStage = new Stage();
-	        addTaskStage.setTitle("Add Task");
-	        addTaskStage.initModality(Modality.APPLICATION_MODAL);
-	        addTaskStage.setScene(scene);
-	        addTaskStage.showAndWait();
-	    } catch (IOException error) {
-	        Alert alert = new Alert(Alert.AlertType.ERROR);
-	        alert.setTitle("Error Opening Add Task Window");
-	        alert.setHeaderText("An error occurred while opening the Add Task window.");
-	        alert.setContentText(error.getMessage());
-	        alert.showAndWait();
-	    }
+			Stage addTaskStage = new Stage();
+			addTaskStage.setTitle("Add Task");
+			addTaskStage.initModality(Modality.APPLICATION_MODAL);
+			addTaskStage.setScene(scene);
+			addTaskStage.showAndWait();
+		} catch (IOException error) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Error Opening Add Task Window");
+			alert.setHeaderText("An error occurred while opening the Add Task window.");
+			alert.setContentText(error.getMessage());
+			alert.showAndWait();
+		}
 	}
 
+	/**
+	 * removes task from the list
+	 */
+	@FXML
+	public void handleRemoveTask() {
+		this.viewModel.removeSelectedTask();
+	}
 
 	/**
 	 * Handles the "Load Tasks" menu item.

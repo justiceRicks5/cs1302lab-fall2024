@@ -34,6 +34,6 @@
 
       <!-- Buttons -->
       <Button fx:id="addTaskButton" layoutX="219.0" layoutY="34.0" mnemonicParsing="false" onAction="#handleAddTaskWindow" text="+" />
-      <Button layoutX="219.0" layoutY="67.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="-" />
+      <Button fx:id="removeTaskButton" layoutX="219.0" layoutY="67.0" mnemonicParsing="false" onAction="#handleRemoveTask" prefHeight="25.0" prefWidth="25.0" text="-" />
    </children>
 </AnchorPane>
